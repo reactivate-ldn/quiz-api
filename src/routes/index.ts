@@ -1,4 +1,7 @@
 import * as express from 'express';
+import Session from '../models/session';
+import Option from '../models/option';
+import Question from '../models/question';
 
 /*
 *
@@ -11,6 +14,7 @@ import * as express from 'express';
 // (Add an option to the quizz) POST /option { title: string }
 // (Add a question to the quizz) POST /question { title: string, description: string, optionIds: string[], rightOption: string }
 // (Create a session) POST /session { name: string, questionIds: string[]}
+// (Get the latest session) GET /session/question
 // (move to next question) GET /next
 
 // Add participants
@@ -20,6 +24,39 @@ import * as express from 'express';
 
 
 export default express.Router()
-  .use('/', (req, res) => {
-    res.status(200).send({ hello: 'test' });
+  .post('/option', (req, res) => {
+    const opt = new Option({ title: req.body.title });
+    console.log('Creating an option', opt);
+
+    opt.save((err, option) => {
+      if (!err) {
+        res.status(200).send({ data: option });
+      } else {
+        res.status(500).send(err);
+      }
+    });
+  })
+  .post('/question', (req, res) => {
+    const { title, description, optionIds, rightOption } = req.body;
+    const q = new Question({ title, description, optionIds, rightOption });
+
+    q.save((err, question) => {
+      if (!err) {
+        res.status(200).send({ data: question });
+      } else {
+        res.status(500).send(err);
+      }
+    });
+  })
+  .post('/session', (req, res) => {
+    const { name, questionIds } = req.body;
+    const s = new Session({ name, questionIds });
+
+    s.save((err, session) => {
+      if (!err) {
+        res.status(200).send({ data: session });
+      } else {
+        res.status(500).send(err);
+      }
+    });
   });
