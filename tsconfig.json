@@ -8,6 +8,7 @@
     "allowJs": true,
     "moduleResolution": "node",
     "rootDir": "src",
+    "rootDirs": ["src"],
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitReturns": true,
@@ -16,6 +17,7 @@
   },
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "insert_data.js"
   ]
 }

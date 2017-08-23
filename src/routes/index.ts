@@ -22,11 +22,9 @@ import Question from '../models/question';
 // POST /user { name: string }
 // POST /answer { userId: string, questionId: string, selectedOptionId: string }
 
-
 export default express.Router()
-  .post('/option', (req, res) => {
+  .post('/option', (req, res) => {    
     const opt = new Option({ title: req.body.title });
-    console.log('Creating an option', opt);
 
     opt.save((err, option) => {
       if (!err) {

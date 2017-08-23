@@ -9,16 +9,14 @@ const PORT = 8080;
 
 mongoose.connect('mongodb://localhost/reactivate-quizz');
 const app = express();
+app.use(bodyParser.json());
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-  
-});
+db.once('open', () => {});
 
 app.use(cors());
 app.use(cookieParser());
-app.use(bodyParser.json());
 app.use(mainRoutes);
 
 app.listen(PORT, () => {
